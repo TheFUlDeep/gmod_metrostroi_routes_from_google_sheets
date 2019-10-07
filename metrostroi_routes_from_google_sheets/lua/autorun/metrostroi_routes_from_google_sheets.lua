@@ -216,7 +216,7 @@ if CLIENT then
 		for ColNumber,Row in pairs(Cols) do
 			local Max,MaxStr
 			for RowNumber,v in pairs(Row) do
-				if RowNumber < 3 then continue end --отвязал первые две строки от сетки
+				if RowNumber < 3 and ColNumber ~= 1 then continue end --отвязал первые две строки от сетки
 				local v = tostring(v)
 				if not Max or Max < surface.GetTextSize(v) then Max = surface.GetTextSize(v) MaxStr = v end
 			end
