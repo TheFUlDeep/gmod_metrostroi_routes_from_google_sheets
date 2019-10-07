@@ -105,7 +105,7 @@ if CLIENT then
 
 	local StringsPositions = {}
 	local function MathStringsPositions()
-		print("Math")
+		--print("Math")
 		if not RouteList then return end
 		surface.SetFont(font)
 		xPos = xpos:GetInt()
@@ -442,7 +442,7 @@ local function CreateRoutesTbl()
 		for RowNumber,vals in pairs(Row) do
 			if AllValuesIsEmpty(vals) and Row[RowNumber+1] and AllValuesIsEmpty(Row[RowNumber+1]) then
 				if not Lists[RouteNumber] then Lists[RouteNumber] = {} end
-				local ListsCount = #Lists[RouteNumber]+1
+				local ListsCount = #Lists[RouteNumber] == 0 and #Lists[RouteNumber]+1 or #Lists[RouteNumber]
 				if not Lists[RouteNumber][ListsCount] then Lists[RouteNumber][ListsCount] = {} end
 				Lists[RouteNumber][ListsCount].End = RowNumber-1
 				if not Lists[RouteNumber][ListsCount+1] then Lists[RouteNumber][ListsCount+1] = {} end
@@ -450,6 +450,16 @@ local function CreateRoutesTbl()
 			end
 		end
 	end
+
+	for RouteNumber,List in pairs(Lists) do
+		if not istable(List) then continue end
+		for ListNumber,Poss in pairs(List) do
+			if not Poss.End and not Poss.Start then
+				Lists[RouteNumber][ListNumber] = nil
+			end
+		end
+	end
+	--PrintTable(Lists)
 	--PrintTable(Matrix)
 
 	for RouteNumber,matrix in pairs(Matrix) do
